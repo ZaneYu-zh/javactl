@@ -1,50 +1,56 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
+#include "javactl/cli/command_parser.hpp"
 
-// 回调函数：将接收到的数据追加到字符串中
-static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *output) {
-    size_t totalSize = size * nmemb;
-    output->append(static_cast<char*>(contents), totalSize);
-    return totalSize;
+void printHelp()
+{
+    std::cout << "Usage" << std::endl;
+    std::cout << std::endl;
+    std::cout << "  javactl <command> [options]" << std::endl;
+    std::cout << std::endl;
+    std::cout << "A cross-platform Java version management tool to install, switch, uninstall, and list Java versions" << std::endl;
+    std::cout << "with configurable mirror sources for fast and reliable downloads of remote Java distributions." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Commands" << std::endl;
+    std::cout << "  remote-list [mirror]    List available Java versions from a specified (or default) mirror source" << std::endl;
 }
 
-int main() {
-    CURL *curl;
-    CURLcode res;
-    std::string response;
-
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-
-    if (curl) {
-        // 设置目标 URL
-        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
-        // 设置回调函数，接收响应数据
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        // 跟随重定向
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        // 设置超时（可选）
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
-
-        // 执行请求
-        res = curl_easy_perform(curl);
-
-        if (res != CURLE_OK) {
-            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
-        } else {
-            std::cout << "Request successful! Received " << response.size() << " bytes.\n";
-            std::cout << "--- Response content (first 500 chars) ---\n";
-            std::cout << response.substr(0, 500) << std::endl;
-        }
-
-        curl_easy_cleanup(curl);
-    } else {
-        std::cerr << "Failed to initialize curl." << std::endl;
+int main(int argc, char* argv[])
+{
+    CURLcode curlInitRes = curl_global_init(CURL_GLOBAL_ALL);
+    if (curlInitRes != CURLE_OK)
+    {
+        std::cerr << "[error] libcurl init failed: " << curl_easy_strerror(curlInitRes) << std::endl;
         return 1;
     }
 
+    int exitCode = 0;
+    try
+    {
+        if (argc == 1 || (argc == 2 && std::string(argv[1]) == "help"))
+        {
+            printHelp();
+            return 0;
+        }
+
+        javactl::cli::CommandParser parser;
+        javactl::cli::CommandType cmdType = parser.parse(argc, argv);
+
+        if (cmdType == javactl::cli::CommandType::UNKNOWN)
+        {
+            std::cerr << "JavaCtl Error: unknown command " << argv[1] << std::endl;
+            std::cerr << "JavaCtl Error: \'Run javactl help\' for all supported commands" << argv[1] << std::endl;
+            exitCode = 1;
+        }
+    }
+    catch (...) 
+    {
+        std::cerr << "Unknown Error: please check command arguments or network.";
+        exitCode = 1;
+    }
+
     curl_global_cleanup();
-    return 0;
+
+    return exitCode;
 }
