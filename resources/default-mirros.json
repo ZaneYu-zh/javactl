@@ -1,0 +1,38 @@
+{
+  "global": {
+    "default_mirror": "tsinghua",
+    "java_install_root": "",
+    "enable_checksum_verify": true,
+    "download_timeout": 300,
+    "retry_count": 3
+  },
+  "mirrors": [
+    {
+      "name": "tsinghua",
+      "description": "清华大学Adoptium镜像站",
+      "is_default": false,
+      "directory_url": "https://mirrors.tuna.tsinghua.edu.cn/Adoptium/", 
+      "version_parse_rule": "regex:Adoptium/(\\d+)/jdk",
+      "download_url_template": "https://mirrors.tuna.tsinghua.edu.cn/Adoptium/{major_version}/jdk/{arch}/{os}/OpenJDK{major_version}U-jdk_{arch}_{os}_hotspot_{full_version}.zip",
+      "supported_systems": ["win", "linux", "mac"],
+      "supported_archs": ["x64", "arm64"],
+      "checksum_url_template": "",
+      "field_mapping": {
+        "os": {
+          "win": "windows",
+          "linux": "linux",
+          "mac": "macos"
+        },
+        "arch": {
+          "x64": "x64",
+          "arm64": "aarch64"
+        }
+      },
+      "version_mapping": {
+        "11": "11.0.30_7",
+        "17": "17.0.12_7",
+        "21": "21.0.4_7"
+      }
+    }
+  ]
+}
