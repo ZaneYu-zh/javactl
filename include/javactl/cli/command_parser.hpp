@@ -10,13 +10,13 @@ namespace javactl
         enum class CommandType
         {
             UNKNOWN,
-            REMORE_LIST
+            REMOTE_LIST
         };
 
         class CommandParser
         {
             public:
-            CommandType parse(int argc, char* agrv[]);
+            CommandType parse(int argc, char* argv[]);
         };
     }
 }

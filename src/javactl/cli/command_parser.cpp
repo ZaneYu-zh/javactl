@@ -15,7 +15,7 @@ namespace javactl
             if (command == "remote-list")
             {
                 std::string mirrorName = (argc >= 3) ? argv[2] : "";
-                return CommandType::REMORE_LIST;
+                return CommandType::REMOTE_LIST;
             }
 
             return CommandType::UNKNOWN;

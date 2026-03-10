@@ -1,5 +1,5 @@
 #ifndef OS_DETECTOR_H
-#define OS_DETECTR_H
+#define OS_DETECTOR_H
 
 #include <string>
 

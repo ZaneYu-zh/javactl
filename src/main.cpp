@@ -2,6 +2,7 @@
 #include <string>
 #include <curl/curl.h>
 #include "javactl/cli/command_parser.hpp"
+#include "javactl/os/os_detector.hpp"
 
 void printHelp()
 {
@@ -18,6 +19,8 @@ void printHelp()
 
 int main(int argc, char* argv[])
 {
+    std::cout << javactl::os::getArchType() << std::endl;
+
     CURLcode curlInitRes = curl_global_init(CURL_GLOBAL_ALL);
     if (curlInitRes != CURLE_OK)
     {
@@ -37,16 +40,18 @@ int main(int argc, char* argv[])
         javactl::cli::CommandParser parser;
         javactl::cli::CommandType cmdType = parser.parse(argc, argv);
 
-        if (cmdType == javactl::cli::CommandType::UNKNOWN)
+        switch (cmdType)
         {
-            std::cerr << "JavaCtl Error: unknown command " << argv[1] << std::endl;
-            std::cerr << "JavaCtl Error: \'Run javactl help\' for all supported commands" << argv[1] << std::endl;
-            exitCode = 1;
+            case javactl::cli::CommandType::UNKNOWN:
+                std::cerr << "JavaCtl Error: unknown command " << argv[1] << std::endl;
+                std::cerr << "JavaCtl Error: \'Run javactl help\' for all supported commands" << std::endl;
+                exitCode = 1;
+                break;
         }
     }
     catch (...) 
     {
-        std::cerr << "Unknown Error: please check command arguments or network.";
+        std::cerr << "Unknown Error: please check command arguments or network." << std::endl;
         exitCode = 1;
     }
 
