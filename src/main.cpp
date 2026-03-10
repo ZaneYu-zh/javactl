@@ -4,7 +4,7 @@
 #include "javactl/cli/command_parser.hpp"
 #include "javactl/os/os_detector.hpp"
 
-void printHelp()
+void help()
 {
     std::cout << "Usage" << std::endl;
     std::cout << std::endl;
@@ -19,21 +19,19 @@ void printHelp()
 
 int main(int argc, char* argv[])
 {
-    std::cout << javactl::os::getArchType() << std::endl;
-
     CURLcode curlInitRes = curl_global_init(CURL_GLOBAL_ALL);
     if (curlInitRes != CURLE_OK)
     {
-        std::cerr << "[error] libcurl init failed: " << curl_easy_strerror(curlInitRes) << std::endl;
+        std::cerr << "JavaCtl Error: libcurl init failed, " << curl_easy_strerror(curlInitRes) << std::endl;
         return 1;
     }
 
     int exitCode = 0;
     try
     {
-        if (argc == 1 || (argc == 2 && std::string(argv[1]) == "help"))
+        if (argc == 1)
         {
-            printHelp();
+            help();
             return 0;
         }
 
@@ -46,6 +44,9 @@ int main(int argc, char* argv[])
                 std::cerr << "JavaCtl Error: unknown command " << argv[1] << std::endl;
                 std::cerr << "JavaCtl Error: \'Run javactl help\' for all supported commands" << std::endl;
                 exitCode = 1;
+                break;
+
+            case javactl::cli::CommandType::HELP:
                 break;
         }
     }

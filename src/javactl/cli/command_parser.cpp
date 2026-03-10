@@ -11,13 +11,30 @@ namespace javactl
                 return CommandType::UNKNOWN;
             }
 
-            std::string command = argv[1];
-            if (command == "remote-list")
+            std::string cmd = argv[1];
+            std::vector<std::string> args;
+            for (int i = 2; i < argc; i++)
             {
-                std::string mirrorName = (argc >= 3) ? argv[2] : "";
-                return CommandType::REMOTE_LIST;
+                args.emplace_back(argv[i]);
             }
 
+            std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+            CommandType cmdType = CommandType::UNKNOWN;
+            
+            if (cmd == "remote-list")
+            {
+                cmdType = CommandType::REMOTE_LIST;
+            }
+            else if (cmd == "help")
+            {
+                cmdType = CommandType::HELP;
+            }
+            
+            if (cmdType != CommandType::UNKNOWN || cmdType != CommandType::HELP)
+            {
+                CommandExecutor::execute(cmdType, args);
+            }
+            
             return CommandType::UNKNOWN;
         }
     }

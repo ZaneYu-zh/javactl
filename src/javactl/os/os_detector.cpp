@@ -37,28 +37,82 @@ namespace javactl
                 default:
                     return "unknown";
             }
-        }
 #elif __APPLE__ || __linux__
-        struct ustname un;
-        if (ustname(&un) != 0)
-        {
-            return "unknown";
-        }
-        std::string machine(un.machine);
-        if (machine == "x86_64" || machine == "amd64")
-        {
-            return "x64";
-        }
-        else if (machine == "aarch64" || machine == "arm64")
-        {
-            return "arm64";
-        }
-        else
-        {
-            return "unknown";
-        }
+            struct utsname un;
+            if (uname(&un) != 0)
+            {
+                return "unknown";
+            }
+            std::string machine(un.machine);
+            if (machine == "x86_64" || machine == "amd64")
+            {
+                return "x64";
+            }
+            else if (machine == "aarch64" || machine == "arm64")
+            {
+                return "arm64";
+            }
+            else
+            {
+                return "unknown";
+            }
 #else
-        return "unknown";
+            return "unknown";
 #endif
+        }
+
+        std::string getUserHomeDir()
+        {
+            const char* homeEnv = nullptr;
+#ifdef _WIN32
+            homeEnv = std::getenv("USERPROFILE");
+            if (!homeEnv)
+            {
+                homeEnv = std::getenv("HOME");
+            }
+#else
+            homeEnv = std::getenv("HOME");
+#endif
+            if (!homeEnv || strlen(homeEnv) == 0)
+            {
+                return "uknown";
+            }
+            return std::string(homeEnv);
+        }
+
+        std::string getTempDir()
+        {
+            const char* tempEnv = nullptr;
+#ifdef _WIN32
+            tempEnv = std::getenv("TEMP");
+            if (!tempEnv)
+            {
+                tempEnv = std::getenv("TMP");
+            }
+#else
+            tempEnv = std::getenv("TMPDIR");
+            if (!tempEnv)
+            {
+                return "/tmp"
+            }
+#endif
+            
+            if (!tempEnv || strlen(tempEnv) == 0)
+            {
+#ifdef _WIN32
+                return "unknown";
+#else
+                return "/tmp";
+#endif
+            }
+
+            return std::string(tempEnv);
+        }
+
+        std::string getDefaultJavaInstallRoot()
+        {
+            std::string homeDir = getUserHomeDir();
+            return homeDir + "/.javactl";
+        }
     }
 }

@@ -2,6 +2,9 @@
 #define COMMAND_PARSER_H
 
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <javactl/cli/command_executor.hpp>
 
 namespace javactl
 {
@@ -10,7 +13,8 @@ namespace javactl
         enum class CommandType
         {
             UNKNOWN,
-            REMOTE_LIST
+            REMOTE_LIST,
+            HELP
         };
 
         class CommandParser
