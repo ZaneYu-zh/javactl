@@ -1,4 +1,5 @@
 #include "javactl/cli/command_parser.hpp"
+#include "javactl/cli/command_executor.hpp"
 
 namespace javactl
 {

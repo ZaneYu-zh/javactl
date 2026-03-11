@@ -2,6 +2,7 @@
 #define COMMAND_EXECUTOR_H
 
 #include <string>
+#include <vector>
 #include "javactl/cli/command_parser.hpp"
 #include "javactl/cli/commands/remote_list_command.hpp"
 

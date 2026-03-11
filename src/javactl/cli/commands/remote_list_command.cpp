@@ -6,7 +6,7 @@ namespace javactl
     {
         namespace commands
         {
-            void RemoteListCommand::execute(const std::string& mirrorName = "")
+            void RemoteListCommand::execute(const std::string& mirrorName)
             {
                 
             }

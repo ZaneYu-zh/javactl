@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <javactl/cli/command_executor.hpp>
 
 namespace javactl
 {
