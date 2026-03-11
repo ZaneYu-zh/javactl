@@ -1,6 +1,6 @@
 <div align="center">
   <a>
-    <img src="./javactl_pro_logo.svg", height="120", alt="javactl project logo">
+    <img src="./javactl_pro_logo.svg" height="120" alt="javactl project logo">
   </a>
 
   <h2 id="title">Java Controller</h2>

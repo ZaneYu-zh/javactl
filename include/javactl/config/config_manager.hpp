@@ -1,13 +1,8 @@
-#include <string>
+#ifndef CONFIG_MANAGER_H
+#define CONFIG_MANAGER_H
 
-namespace javactl
-{
-    namespace config
-    {
-        class ConfigManager
-        {
-            // public:
-            // std::string userConfigPath = 
-        };
-    }
+namespace javactl::config {
+    class ConfigManager {};
 }
+
+# endif

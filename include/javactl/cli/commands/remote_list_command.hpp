@@ -4,22 +4,14 @@
 #include <string>
 #include <vector>
 
-namespace javactl
-{
-    namespace cli
-    {
-        namespace commands
-        {
-            class RemoteListCommand
-            {
-                public:
-                void execute(const std::string& mirrorName = "");
+namespace javactl::cli::commands {
+    class RemoteListCommand {
+    public:
+        static void execute(const std::string &mirrorName = "");
 
-                private:
-                void printVersionList(const std::string& mirrorName, const std::vector<std::string>& versions);
-            };
-        }
-    }
+    private:
+        void printVersionList(const std::string &mirrorName, const std::vector<std::string> &versions);
+    };
 }
 
 #endif

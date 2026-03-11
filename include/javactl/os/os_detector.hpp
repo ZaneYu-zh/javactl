@@ -3,20 +3,16 @@
 
 #include <string>
 
-namespace javactl
-{
-    namespace os
-    {
-        std::string getOsType();
+namespace javactl::os {
+    std::string getOsType();
 
-        std::string getArchType();
+    std::string getArchType();
 
-        std::string getUserHomeDir();
+    std::string getUserHomeDir();
 
-        std::string getTempDir();
+    std::string getTempDir();
 
-        std::string getDefaultJavaInstallRoot();
-    }
+    std::string getDefaultJavaInstallRoot();
 }
 
 #endif
