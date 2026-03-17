@@ -10,12 +10,7 @@
     {
       "name": "jdk.java.net",
       "description": "Archived OpenJDK GA Releases",
-      "directory_url": "https://jdk.java.net/archive/"
-    },
-    {
-      "name": "gitee",
-      "description": "Git JDK Distribution",
-      "directory_url": "https://gitee.com/fan-zhongyu/jdk-distribution.git"
+      "url": "https://jdk.java.net/archive/"
     }
   ]
 }

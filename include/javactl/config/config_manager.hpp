@@ -1,40 +1,46 @@
 #ifndef CONFIG_MANAGER_H
 #define CONFIG_MANAGER_H
 
-#include "javactl_config.hpp"
-#include "mirror_config.hpp"
+#include "javactl/config/javactl_config.hpp"
 #include <vector>
 
 namespace javactl::config {
+    class MirrorConfig;
+
     class ConfigManager {
     public:
-        static ConfigManager& get_instance();
+        static ConfigManager &get_instance();
 
         void init();
 
-        std::string getJavaInstallRoot();
+        [[nodiscard]] std::string getJavaInstallRoot() const;
 
-        std::string getRemoteDirectory();
+        [[nodiscard]] std::string getMirrorUrl() const;
 
-        std::string getDefaultMirrorName();
+        [[nodiscard]] std::string getDefaultMirrorName() const;
 
-        bool isChecksumVerifyEnabled() const;
+        [[nodiscard]] bool isChecksumVerifyEnabled() const;
 
-        int getDownloadTimeout() const;
+        [[nodiscard]] int getDownloadTimeout() const;
 
-        int getRetryCount() const;
+        [[nodiscard]] int getRetryCount() const;
 
     private:
+        ConfigManager();
+
         void loadConfig();
 
-        void generateDefaultConfig();
+        void generateDefaultConfig() const;
 
         void saveConfig();
 
     private:
         bool m_inited{false};
+
         JavactlConfig m_config;
+
         std::vector<MirrorConfig> m_mirrors;
+
         std::string m_configPath;
     };
 }

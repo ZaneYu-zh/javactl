@@ -4,10 +4,12 @@
 #include <string>
 
 namespace javactl::config {
-    struct  MirrorConfig {
+    struct MirrorConfig {
         std::string name;
+
         std::string description;
-        std::string directoryUrl;
+
+        std::string url;
     };
 }
 

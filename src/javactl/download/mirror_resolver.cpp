@@ -2,19 +2,18 @@
 #include <curl/curl.h>
 
 namespace javactl::download {
-
-    size_t WriteCallback(void* content, const size_t size, size_t nmemb, std::string* s) {
+    size_t WriteCallback(void *content, const size_t size, size_t nmemb, std::string *s) {
         const size_t newLength = size * nmemb;
         try {
-            s -> append(static_cast<char *>(content), newLength);
-        } catch (std::bad_alloc& e) {
+            s->append(static_cast<char *>(content), newLength);
+        } catch (std::bad_alloc &e) {
             return 0;
         }
         return newLength;
     }
 
     std::string MirrorResolver::execute(const std::string &url) {
-        CURL* curl = curl_easy_init();
+        CURL *curl = curl_easy_init();
 
         std::string html;
 

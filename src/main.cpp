@@ -2,7 +2,7 @@
 #include <string>
 #include <curl/curl.h>
 #include "javactl/cli/command_parser.hpp"
-#include "javactl/download/mirror_resolver.hpp"
+#include "javactl/config/config_manager.hpp"
 
 void help() {
     std::cout << "Usage" << std::endl;
@@ -25,9 +25,8 @@ int main(const int argc, char *argv[]) {
         return 1;
     }
 
-    const std::string response = javactl::download::MirrorResolver::execute();
-
-    std::cout << response << 111 << std::endl;
+    javactl::config::ConfigManager &config_manager = javactl::config::ConfigManager::get_instance();
+    config_manager.init();
 
     int exitCode = 0;
     try {

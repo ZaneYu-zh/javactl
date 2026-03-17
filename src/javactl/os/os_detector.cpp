@@ -1,5 +1,7 @@
 #include "javactl/os/os_detector.hpp"
 
+#include <filesystem>
+
 #ifdef _WIN32
 #include <windows.h>
 #elif __APPLE__ || __linux__
@@ -7,7 +9,7 @@
 #endif
 
 namespace javactl::os {
-    std::string getOsType() {
+    std::string OsDetector::getOsType() {
 #ifdef _WIN32
         return "win";
 #elif __APPLE__
@@ -19,7 +21,7 @@ namespace javactl::os {
 #endif
     }
 
-    std::string getArchType() {
+    std::string OsDetector::getArchType() {
 #ifdef _WIN32
         SYSTEM_INFO si;
         GetNativeSystemInfo(&si);
@@ -49,7 +51,7 @@ namespace javactl::os {
 #endif
     }
 
-    std::string getUserHomeDir() {
+    std::string OsDetector::getUserHomeDir() {
         const char *homeEnv = nullptr;
 #ifdef _WIN32
         homeEnv = std::getenv("USERPROFILE");
@@ -65,7 +67,7 @@ namespace javactl::os {
         return {homeEnv};
     }
 
-    std::string getTempDir() {
+    std::string OsDetector::getTempDir() {
         const char *tempEnv = nullptr;
 #ifdef _WIN32
         tempEnv = std::getenv("TEMP");
@@ -90,8 +92,22 @@ namespace javactl::os {
         return {tempEnv};
     }
 
-    std::string getDefaultJavaInstallRoot() {
+    std::string OsDetector::getDefaultJavaInstallRoot() {
         const std::string homeDir = getUserHomeDir();
         return homeDir + "/.javactl";
+    }
+
+    std::string OsDetector::getDefaultConfigDir() {
+        const std::string home = getUserHomeDir();
+        std::string configDir;
+
+#ifdef _WIN32
+        configDir = home + R"(\AppData\Roaming\javactl)";
+#else
+        configDir = home + "./javactl";
+#endif
+
+        std::filesystem::create_directories(configDir);
+        return configDir;
     }
 }

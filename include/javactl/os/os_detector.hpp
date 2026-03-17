@@ -4,15 +4,20 @@
 #include <string>
 
 namespace javactl::os {
-    std::string getOsType();
+    class OsDetector {
+    public:
+        static std::string getOsType();
 
-    std::string getArchType();
+        static std::string getArchType();
 
-    std::string getUserHomeDir();
+        static std::string getUserHomeDir();
 
-    std::string getTempDir();
+        static std::string getTempDir();
 
-    std::string getDefaultJavaInstallRoot();
+        static std::string getDefaultJavaInstallRoot();
+
+        static std::string getDefaultConfigDir();
+    };
 }
 
 #endif
