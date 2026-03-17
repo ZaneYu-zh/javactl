@@ -7,7 +7,6 @@ namespace javactl::cli {
         switch (cmdType) {
             case CommandType::REMOTE_LIST: {
                 validateArgsCount(cmdType, 0, args.size());
-                commands::RemoteListCommand cmd;
                 const std::string mirror = args.empty() ? "" : args[0];
                 commands::RemoteListCommand::execute(mirror);
                 break;

@@ -2,6 +2,7 @@
 #include <string>
 #include <curl/curl.h>
 #include "javactl/cli/command_parser.hpp"
+#include "javactl/download/mirror_resolver.hpp"
 
 void help() {
     std::cout << "Usage" << std::endl;
@@ -24,6 +25,10 @@ int main(const int argc, char *argv[]) {
         return 1;
     }
 
+    const std::string response = javactl::download::MirrorResolver::execute();
+
+    std::cout << response << 111 << std::endl;
+
     int exitCode = 0;
     try {
         if (argc == 1) {
@@ -31,7 +36,7 @@ int main(const int argc, char *argv[]) {
             return 0;
         }
 
-        switch (javactl::cli::CommandType cmdType = javactl::cli::CommandParser::parse(argc, argv)) {
+        switch (javactl::cli::CommandParser::parse(argc, argv)) {
             case javactl::cli::CommandType::UNKNOWN:
                 std::cerr << "JavaCtl Error: unknown command " << argv[1] << std::endl;
                 std::cerr << "JavaCtl Error: \'Run javactl help\' for all supported commands" << std::endl;
