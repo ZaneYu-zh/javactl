@@ -17,6 +17,11 @@ namespace javactl::os {
         static std::string getDefaultJavaInstallRoot();
 
         static std::string getDefaultConfigDir();
+
+    private:
+        static std::string getEnvVar(const char* name);
+
+        static std::string getEnvVar(const char* name, const char* fallback);
     };
 }
 

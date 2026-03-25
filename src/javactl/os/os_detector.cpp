@@ -62,7 +62,7 @@ namespace javactl::os {
         homeEnv = std::getenv("HOME");
 #endif
         if (!homeEnv || strlen(homeEnv) == 0) {
-            return "uknown";
+            return "unknown";
         }
         return {homeEnv};
     }
@@ -77,7 +77,7 @@ namespace javactl::os {
 #else
         tempEnv = std::getenv("TMPDIR");
         if (!tempEnv) {
-            return "/tmp"
+            return "/tmp";
         }
 #endif
 
@@ -104,10 +104,40 @@ namespace javactl::os {
 #ifdef _WIN32
         configDir = home + R"(\AppData\Roaming\javactl)";
 #else
-        configDir = home + "./javactl";
+        configDir = home + "/javactl";
 #endif
 
         std::filesystem::create_directories(configDir);
         return configDir;
+    }
+
+    std::string OsDetector::getEnvVar(const char *name) {
+        char* buffer = nullptr;
+        size_t len = 0;
+
+#ifdef _WIN32
+        if (_dupenv_s(&buffer, &len, name) != 0 || buffer == nullptr) {
+            return "";
+        }
+#else
+        buffer = std::getenv(name);
+        if (buffer == nullptr) {
+            return "";
+        }
+        len = std::strlen(buffer);
+        if (len == 0) {
+            return "";
+        }
+#endif
+        std::string result(buffer);
+#ifdef _WIN32
+        std::free(buffer);
+#endif
+        return result;
+    }
+
+    std::string OsDetector::getEnvVar(const char *name, const char *fallback) {
+        std::string result = getEnvVar(name);
+        return result.empty() ? fallback : result;
     }
 }

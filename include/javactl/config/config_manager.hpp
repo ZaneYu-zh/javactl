@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace javactl::config {
-    class MirrorConfig;
+    struct MirrorConfig;
 
     class ConfigManager {
     public:
